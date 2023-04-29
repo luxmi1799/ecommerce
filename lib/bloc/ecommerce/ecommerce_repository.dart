@@ -9,7 +9,6 @@ class EcommerceRepository {
   Future<List<Products>> getProducts() async {
     try {
       List<Products> model = [];
-      //List<Products> movies = [];
       final url =
           'http://209.182.213.242/~mobile/MtProject/public/api/product_list.php';
       String token =
@@ -27,14 +26,12 @@ class EcommerceRepository {
       var statusCode = res.statusCode;
       if (statusCode == 200) {
         Map<String, dynamic> map = json.decode(res.body);
-        debugPrint("bodyIs $bodyIs $map");
         model =
             List<Products>.from(map['data'].map((x) => Products.fromJson(x)));
         return model;
       } else {}
 
       return model;
-      // return movies;
     } catch (e) {
       throw e;
     }
