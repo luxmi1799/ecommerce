@@ -14,7 +14,16 @@ class _ProductPageState extends State<ProductPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Trending Movies'),
+        title: Text('Shopping Mall'),
+        actions: [
+          IconButton(
+              onPressed: () {},
+              icon: Icon(
+                Icons.add_shopping_cart,
+                color: Colors.white,
+                size: 32,
+              ))
+        ],
       ),
       body: BlocBuilder<EcommerceCubit, EcommerceState>(
         builder: (context, state) {
@@ -27,18 +36,59 @@ class _ProductPageState extends State<ProductPage> {
               child: Icon(Icons.close),
             );
           } else if (state is LoadedState) {
-            final movies = state.product;
+            final product = state.product;
 
-            return ListView.builder(
-              itemCount: movies.length,
-              itemBuilder: (context, index) => Card(
-                child: ListTile(
-                  title: Text(movies[index].title),
-                  leading: CircleAvatar(
-                    backgroundImage: NetworkImage(movies[index].featuredImage),
+            return OrientationBuilder(
+              builder: (context, orientation) {
+                return GridView.builder(
+                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: orientation == Orientation.portrait ? 2 : 3,
+                    crossAxisSpacing: 8,
+                    mainAxisSpacing: 15,
                   ),
-                ),
-              ),
+                  itemCount: product.length,
+                  scrollDirection: Axis.vertical,
+                  physics: ScrollPhysics(),
+                  itemBuilder: (context, index) {
+                    return Container(
+                      width: 335,
+                      // height: 175,
+                      child: Card(
+                        clipBehavior: Clip.antiAliasWithSaveLayer,
+                        child: Column(
+                          children: [
+                            SizedBox(
+                              width: 335,
+                              height: 110,
+                              child: Image.network(
+                                product[index].featuredImage,
+                                fit: BoxFit.fill,
+                              ),
+                            ),
+                            SizedBox(
+                              height: 10,
+                            ),
+                            Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Expanded(child: Text(product[index].title)),
+                                  IconButton(
+                                      onPressed: () {},
+                                      icon: Icon(Icons.add_shopping_cart))
+                                ])
+                          ],
+                        ),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10.0),
+                        ),
+                        elevation: 5,
+                        margin: EdgeInsets.all(10),
+                      ),
+                    );
+                  },
+                );
+              },
             );
           } else {
             return Container();

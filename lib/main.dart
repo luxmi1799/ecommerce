@@ -13,15 +13,13 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      debugShowCheckedModeBanner: false,
       theme: ThemeData(
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
       home: BlocProvider<EcommerceCubit>(
         create: (context) => EcommerceCubit(
-          repository: EcommerceRepository(
-
-          ),
+          repository: EcommerceRepository(),
         ),
         child: ProductPage(),
       ),
