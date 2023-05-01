@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_ecommerce/Database/product_db.dart';
 import 'package:flutter_ecommerce/bloc/ecommerce/ecommerce_model.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:sqflite/sqflite.dart';
 
 import 'package:path/path.dart' as path;
@@ -37,6 +38,12 @@ class DatabaseHelper {
   static Future insertProfile(Map<String, dynamic> row) async {
     final db = await DatabaseHelper.open();
     print("ROW INSERTED");
+    Fluttertoast.showToast(
+        msg: "Added to Cart",
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.CENTER,
+        timeInSecForIosWeb: 1,
+        fontSize: 16.0);
     return await db.insert(productTable, row);
   }
 
